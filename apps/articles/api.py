@@ -61,7 +61,7 @@ def list_articles(
     queryset = queryset.filter(author__username=author) if author else queryset
     queryset = queryset.filter(favorites__username=favorited) if favorited else queryset
     queryset = queryset.order_by("-created")
-    articles = list(queryset[offset : offset + limit])
+    articles = list(queryset[offset * limit : (offset + 1) * limit])
     return {
         "articles": [ArticleListOutSchema.from_orm(a, context={"request": request}) for a in articles],
         "articlesCount": queryset.count(),
